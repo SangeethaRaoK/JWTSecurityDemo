@@ -65,13 +65,12 @@ public class SecurityConfig  {
 	
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		http
-        .authorizeHttpRequests((authz) -> authz
-            .anyRequest().authenticated()
-        )
-        .httpBasic(Customizer.withDefaults());
-		http.csrf((csrf) -> csrf.disable());
-		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		http.csrf().disable();
+	    http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+	     
+	    http.authorizeRequests()
+	            .requestMatchers("/auth/login").permitAll()
+	            .anyRequest().authenticated();
 		
 		return http.build();
 	}
